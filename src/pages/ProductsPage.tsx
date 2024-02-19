@@ -8,7 +8,7 @@ import {
 import { Box, Grid, Typography } from "@mui/material";
 
 const ProductsPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const products = useSelector(selectProducts);
 
   useEffect(() => {
@@ -21,9 +21,9 @@ const ProductsPage = () => {
           All Products
         </Typography>
         <Grid container spacing={2}>
-          {products.map((product) => (
+          {products.map((product: any) => (
             <Grid item key={product.id} xs={12} sm={6} md={4}>
-              <ProductCard product={product} />
+              <ProductCard product={product.id} />
             </Grid>
           ))}
         </Grid>

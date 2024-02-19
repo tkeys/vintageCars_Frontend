@@ -5,14 +5,21 @@ import { RootState } from "../../app/store";
 interface Product {
   id: string;
   title: string;
-  description: string;
   price: number;
-  category: string;
-  imageUrl: string;
+  description: string;
+  category: Category;
+  images: string[];
+}
+
+interface Category {
+  id: string;
+  name: string;
+  image: string;
 }
 
 interface ProductState {
   products: Product[];
+  product?: Product;
   status: "idle" | "loading" | "failure";
 }
 
@@ -25,15 +32,29 @@ export const fetchProducts = createAsyncThunk(
   "product/fetchProducts",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `https://api.escuelajs.co/api/v1/products`
-      );
+      const response = await axios.get(`https://fakestoreapi.com/products`);
       console.log(`Fetching product for page successful`);
       console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("fetching products failed", error);
-      return rejectWithValue("failed to fetch producsts");
+      return rejectWithValue("failed to fetch products");
+    }
+  }
+);
+
+export const fetchProduct = createAsyncThunk(
+  "product/fetchproduct",
+  async (productId: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://api.escuelajs.co/api/v1/products/${productId}`
+      );
+      console.log(`Fetching product for page successful`);
+      return response.data;
+    } catch (error: any) {
+      console.log("fetching product failed", error.message, error.response);
+      return rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -60,10 +81,31 @@ const productSlice = createSlice({
         state.status = "failure";
         console.log("fetching products failed");
       });
+
+    builder
+      .addCase(fetchProduct.pending, (state) => {
+        state.status = "loading";
+        console.log("fetching product started");
+      })
+
+      .addCase(
+        fetchProduct.fulfilled,
+        (state, action: PayloadAction<Product>) => {
+          state.status = "idle";
+          state.product = action.payload;
+          console.log("fetching product successful");
+        }
+      )
+
+      .addCase(fetchProduct.rejected, (state) => {
+        state.status = "failure";
+        console.log("fetching product failed");
+      });
   },
 });
 
 export const selectProducts = (state: RootState) => state.product.products;
-export const selectProductStatus = (state: RootState) => state.product.status;
+export const selectProductsStatus = (state: RootState) => state.product.status;
+export const selectProduct = (state: RootState) => state.product.product;
 
 export default productSlice.reducer;

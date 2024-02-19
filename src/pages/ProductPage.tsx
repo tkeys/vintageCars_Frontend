@@ -1,0 +1,71 @@
+import {
+  Box,
+  Button,
+  CardMedia,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
+import {
+  fetchProduct,
+  selectProduct,
+  selectProductsStatus,
+} from "../features/products/productSlice";
+import { addToCart } from "../features/cart/cartSlice";
+
+const ProductPage = () => {
+  const dispatch = useDispatch<any>();
+  const { productId } = useParams<{ productId: string }>();
+  const status = useSelector(selectProductsStatus);
+  const product = useSelector(selectProduct);
+
+  useEffect(() => {
+    if (productId) {
+      console.log(`Fetching product for productID: ${productId}`);
+      dispatch(fetchProduct(productId));
+    }
+  }, [dispatch, productId]);
+
+  const handleAddToCart = () => {
+    if (product) {
+      console.log(`Adding to cart for productID: ${product.id}`);
+      dispatch(addToCart({ productId: product.id, quantity: 1 }));
+    }
+  };
+  if (status === "loading") {
+    console.log("Loading product details...");
+    return <CircularProgress />;
+  }
+
+  if (status === "failure" || !product) {
+    console.log("Failed to load product details or product not found...");
+    return (
+      <Typography variant="h5">
+        Product not found or an error occured
+      </Typography>
+    );
+  }
+  console.log("Dispalying product details...");
+
+  return (
+    <Box>
+      <CardMedia
+        component="img"
+        height={140}
+        image={product.category.image}
+        alt={product.title}
+      ></CardMedia>
+      <Typography variant="h4">{product.title}</Typography>
+      <Typography variant="body1">{product.description}</Typography>
+      <Typography variant="h6"> ${product.price}</Typography>
+      <Button variant="contained" onClick={handleAddToCart}>
+        Add to Cart
+      </Button>
+    </Box>
+  );
+};
+
+export default ProductPage;

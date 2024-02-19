@@ -1,14 +1,14 @@
 import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
 } from "@mui/material";
-import React from "react";
-
-import ProductPage from "../pages/ProductPage";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 interface Product {
   id: string;
@@ -20,16 +20,32 @@ interface Product {
 }
 
 interface Category {
-  id: string;
+  id: number;
   name: string;
   image: string;
 }
 
-interface ProductCardProps {
-  product: Product;
-}
+const ProductDetails = () => {
+  const { id } = useParams<{ id: string }>();
+  const [product, setProduct] = React.useState<Product | null>(null);
+  const [loading, setLoading] = React.useState(true);
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  useEffect(() => {
+    axios
+      .get(` https://fakestoreapi.com/products/${id}`)
+
+      .then((res) => setProduct(res.data))
+      .catch((err) => console.log(err));
+    console.log(product);
+    setLoading(false);
+  }, [product, id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  } else if (!product) {
+    return <div>Product not found ooooo</div>;
+  }
+
   return (
     <Card>
       <CardMedia
@@ -51,13 +67,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" LinkComponent={ProductPage}>
-          View
-        </Button>
+        <Button size="small">View</Button>
         <Button size="small">Add to Cart</Button>
       </CardActions>
     </Card>
   );
 };
 
-export default ProductCard;
+export default ProductDetails;
