@@ -4,7 +4,7 @@ import ProductCard from "../components/ProductCard";
 import {
   selectProducts,
   fetchProducts,
-} from "../features/products/productSlice";
+} from "../redux/slices/products/productSlice";
 import { Box, Grid, Typography } from "@mui/material";
 
 const ProductsPage = () => {
@@ -20,10 +20,10 @@ const ProductsPage = () => {
         <Typography variant="h4" gutterBottom>
           All Products
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           {products.map((product: any) => (
             <Grid item key={product.id} xs={12} sm={6} md={4}>
-              <ProductCard product={product.id} />
+              <ProductCard product={product} />
             </Grid>
           ))}
         </Grid>

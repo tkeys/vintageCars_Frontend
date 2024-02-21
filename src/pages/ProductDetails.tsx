@@ -11,7 +11,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 interface Product {
-  id: string;
+  id: number;
   title: string;
   price: number;
   description: string;
@@ -32,7 +32,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     axios
-      .get(` https://fakestoreapi.com/products/${id}`)
+      .get(` https://api.escuelajs.co/api/v1/products/${id}`)
 
       .then((res) => setProduct(res.data))
       .catch((err) => console.log(err));

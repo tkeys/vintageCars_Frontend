@@ -13,21 +13,21 @@ import {
   fetchProduct,
   selectProduct,
   selectProductsStatus,
-} from "../features/products/productSlice";
-import { addToCart } from "../features/cart/cartSlice";
+} from "../redux/slices/products/productSlice";
+import { addToCart } from "../redux/slices/cart/cartSlice";
 
 const ProductPage = () => {
   const dispatch = useDispatch<any>();
-  const { productId } = useParams<{ productId: string }>();
+  const { id } = useParams<{ id: string }>();
   const status = useSelector(selectProductsStatus);
   const product = useSelector(selectProduct);
 
   useEffect(() => {
-    if (productId) {
-      console.log(`Fetching product for productID: ${productId}`);
-      dispatch(fetchProduct(productId));
+    if (id) {
+      console.log(`Fetching product for productID: ${id}`);
+      dispatch(fetchProduct(id));
     }
-  }, [dispatch, productId]);
+  }, [dispatch, id]);
 
   const handleAddToCart = () => {
     if (product) {
@@ -48,7 +48,7 @@ const ProductPage = () => {
       </Typography>
     );
   }
-  console.log("Dispalying product details...");
+  console.log("Displaying product details...");
 
   return (
     <Box>

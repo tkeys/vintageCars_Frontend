@@ -11,12 +11,12 @@ interface Product {
 }
 
 interface Category {
-  id: number;
+  id: string;
   name: string;
   image: string;
 }
 
-const useProductById = (productId: string) => {
+const useProductById = (productId: number) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

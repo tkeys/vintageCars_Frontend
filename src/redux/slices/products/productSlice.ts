@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../../app/store";
+import { RootState } from "../../store";
 
 interface Product {
   id: string;
@@ -32,7 +32,9 @@ export const fetchProducts = createAsyncThunk(
   "product/fetchProducts",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`https://fakestoreapi.com/products`);
+      const response = await axios.get(
+        `https://api.escuelajs.co/api/v1/products`
+      );
       console.log(`Fetching product for page successful`);
       console.log(response.data);
       return response.data;

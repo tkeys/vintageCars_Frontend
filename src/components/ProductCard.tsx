@@ -7,8 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import React from "react";
-
-import ProductPage from "../pages/ProductPage";
+import { Link } from "react-router-dom";
 
 interface Product {
   id: string;
@@ -20,7 +19,7 @@ interface Product {
 }
 
 interface Category {
-  id: string;
+  id: number;
   name: string;
   image: string;
 }
@@ -34,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <Card>
       <CardMedia
         component="img"
-        height={140}
+        sx={{ height: 140, backgroundSize: "contain" }}
         image={product.category.image}
         alt={product.title}
       ></CardMedia>
@@ -46,12 +45,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Typography variant="body2" color="text.secondary">
           {product.description}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="h5" color="text.secondary">
           $ {product.price}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" LinkComponent={ProductPage}>
+        <Button component={Link} to={`/product/${product.id}`} size="small">
           View
         </Button>
         <Button size="small">Add to Cart</Button>

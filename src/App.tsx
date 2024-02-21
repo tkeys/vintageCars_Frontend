@@ -7,6 +7,8 @@ import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductDetails from "./pages/ProductDetails";
 import ProductPage from "./pages/ProductPage";
+import Homepage from "./pages/Homepage";
+import { ContactPage } from "@mui/icons-material";
 
 function App() {
   return (
@@ -14,8 +16,10 @@ function App() {
       <Header />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<ProductsPage />} />
-          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="/catalog/:id" element={<ProductPage />} />
         </Routes>
       </BrowserRouter>
     </div>
