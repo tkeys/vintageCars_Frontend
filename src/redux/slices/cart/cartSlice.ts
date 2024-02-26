@@ -4,8 +4,17 @@ import { RootState } from "../../store";
 interface CartItem {
   productId: string;
   quantity: number;
+  price: number;
+  title: string;
+  description: string;
+  image?: string;
+  category?: Category;
 }
-
+interface Category {
+  id: string;
+  name: string;
+  image: string;
+}
 interface CartState {
   items: CartItem[];
 }

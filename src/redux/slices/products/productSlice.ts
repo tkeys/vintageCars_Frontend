@@ -60,6 +60,35 @@ export const fetchProduct = createAsyncThunk(
     }
   }
 );
+export const filterProductsByCategory = createAsyncThunk(
+  "product / filterProductsByCategory",
+  async (categoryName: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://api.escuelajs.co/api/v1/products/?categoryId=${categoryName}`
+      );
+      console.log(`Fetching product for categories successful`);
+      console.log("adekunle adejumo", response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log("fetching product failed", error.message, error.response);
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const sortProductsByPrice = createAsyncThunk(
+  "product / sortProductsByPrice",
+  async (order: "asc" | "desc", { getState, rejectWithValue }) => {
+    const state = getState() as RootState;
+    let sortedProducts = [...state.product.products];
+    sortedProducts.sort((a, b) => {
+      return order === "asc" ? a.price - b.price : b.price - a.price;
+    });
+    console.log(`Sorted products by price in ${order}order. `);
+    return sortedProducts;
+  }
+);
 
 const productSlice = createSlice({
   name: "product",
@@ -103,6 +132,25 @@ const productSlice = createSlice({
         state.status = "failure";
         console.log("fetching product failed");
       });
+    builder
+      .addCase(
+        filterProductsByCategory.fulfilled,
+        (state, action: PayloadAction<Product[]>) => {
+          state.products = action.payload;
+          console.log("filtered products by category successful");
+        }
+      )
+      .addCase(filterProductsByCategory.rejected, (state) => {
+        state.status = "failure";
+        console.log("filtered products by category failed");
+      });
+    builder.addCase(
+      sortProductsByPrice.fulfilled,
+      (state, action: PayloadAction<Product[]>) => {
+        state.products = action.payload;
+        console.log("sorted products by price successful");
+      }
+    );
   },
 });
 

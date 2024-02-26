@@ -15,6 +15,8 @@ import {
   selectProductsStatus,
 } from "../redux/slices/products/productSlice";
 import { addToCart } from "../redux/slices/cart/cartSlice";
+import ProductCard from "../components/ProductCard";
+import ProductsPage from "./ProductsPage";
 
 const ProductPage = () => {
   const dispatch = useDispatch<any>();
@@ -32,7 +34,17 @@ const ProductPage = () => {
   const handleAddToCart = () => {
     if (product) {
       console.log(`Adding to cart for productID: ${product.id}`);
-      dispatch(addToCart({ productId: product.id, quantity: 1 }));
+      dispatch(
+        addToCart({
+          productId: product.id,
+          quantity: 1,
+          price: product.price,
+          title: product.title,
+          description: "",
+
+          image: product.category.image,
+        })
+      );
     }
   };
   if (status === "loading") {
@@ -58,9 +70,11 @@ const ProductPage = () => {
         image={product.category.image}
         alt={product.title}
       ></CardMedia>
+      <Typography variant="h3">product detail</Typography>
       <Typography variant="h4">{product.title}</Typography>
       <Typography variant="body1">{product.description}</Typography>
       <Typography variant="h6"> ${product.price}</Typography>
+
       <Button variant="contained" onClick={handleAddToCart}>
         Add to Cart
       </Button>

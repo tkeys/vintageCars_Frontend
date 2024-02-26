@@ -1,8 +1,16 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import ProductsPage from "./ProductsPage";
 
 function Homepage() {
-  return <Typography variant="h2">Homepage is here</Typography>;
+  return (
+    <Box>
+      <Typography variant="h2">
+        Homepage is here
+        <ProductsPage />
+      </Typography>
+    </Box>
+  );
 }
 
 export default Homepage;

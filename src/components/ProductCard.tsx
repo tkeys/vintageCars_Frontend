@@ -8,6 +8,12 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import { addToCart, removeFromCart } from "../redux/slices/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectProductsStatus,
+  selectProduct,
+} from "../redux/slices/products/productSlice";
 
 interface Product {
   id: string;
@@ -29,6 +35,22 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const dispatch = useDispatch<any>();
+  const status = useSelector(selectProductsStatus);
+
+  function handleAddToCart() {
+    dispatch(
+      addToCart({
+        productId: product.id,
+        quantity: 1,
+        price: product.price,
+        title: product.title,
+        description: "",
+        image: product.category.image,
+      })
+    );
+  }
+
   return (
     <Card>
       <CardMedia
@@ -53,7 +75,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Button component={Link} to={`/product/${product.id}`} size="small">
           View
         </Button>
-        <Button size="small">Add to Cart</Button>
+        <Button size="small" onClick={handleAddToCart}>
+          Add to Cart
+        </Button>
       </CardActions>
     </Card>
   );

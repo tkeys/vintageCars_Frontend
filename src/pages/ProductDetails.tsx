@@ -32,7 +32,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     axios
-      .get(` https://api.escuelajs.co/api/v1/products/${id}`)
+      .get(` https://fakestoreapi.com/products/1${id}`)
 
       .then((res) => setProduct(res.data))
       .catch((err) => console.log(err));
