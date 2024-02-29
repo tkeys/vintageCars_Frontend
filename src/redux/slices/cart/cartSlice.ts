@@ -35,10 +35,36 @@ export const cartSlice = createSlice({
         (item) => item.productId !== action.payload
       );
     },
+    clearCart: (state) => {
+      state.items = [];
+    },
+
+    incrementQuantity: (state, action: PayloadAction<CartItem>) => {
+      const foundProduct = state.items.find(
+        (item) => item.productId === action.payload.productId
+      );
+      if (foundProduct) {
+        foundProduct.quantity++;
+      }
+    },
+    decrementQuantity: (state, action: PayloadAction<CartItem>) => {
+      const foundProduct = state.items.find(
+        (item) => item.productId === action.payload.productId
+      );
+      if (foundProduct) {
+        foundProduct.quantity--;
+      }
+    },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  clearCart,
+  incrementQuantity,
+  decrementQuantity,
+} = cartSlice.actions;
 export const selectCartItems = (state: RootState) => state.cart.items;
 
 export default cartSlice.reducer;

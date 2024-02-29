@@ -25,32 +25,25 @@ import {
 } from "../redux/slices/products/productSlice";
 import { useDispatch } from "react-redux";
 import { Type } from "typescript";
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  description: string;
-  category: Category;
-  images: string[];
-}
-
-interface Category {
-  id: number;
-  name: string;
-  image: string;
-}
-
-interface ProductCardProps {
-  product: Product;
-}
+import { useParams } from "react-router-dom";
+import {
+  incrementQuantity,
+  decrementQuantity,
+} from "../redux/slices/cart/cartSlice";
 
 const CartPage = ({ product }: any) => {
   const products = useSelector(selectProducts);
   const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
+  const { id } = useParams<{ id: string }>();
+  const status = useSelector(selectProductsStatus);
 
+  /* const handleRemoveFromCart = (productId: string) => {
+    dispatch(removeFromCart(productId));
+  }; */
   return (
     <Box>
-      {/*  <Typography variant="h2" gutterBottom>
+      <Typography variant="h2" gutterBottom>
         Cart
       </Typography>
 
@@ -63,9 +56,9 @@ const CartPage = ({ product }: any) => {
         <Button variant="contained" color="primary">
           Checkout
         </Button>
-      </Typography> */}
+      </Typography>
 
-      <TableContainer component={Paper}>
+      {/* <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
@@ -74,7 +67,7 @@ const CartPage = ({ product }: any) => {
               <TableCell align="right">Quantity</TableCell>
               <TableCell align="right">Subtotal</TableCell>
               {/* <TableCell align="right"></TableCell> */}
-            </TableRow>
+      {/*  </TableRow>
           </TableHead>
           <TableBody>
             {cartItems.map((item) => (
@@ -95,11 +88,17 @@ const CartPage = ({ product }: any) => {
 
                 <TableCell align="right">${item.price}</TableCell>
                 <TableCell align="right">
-                  <IconButton color="error">
+                  <IconButton
+                    color="error"
+                    onClick={() => decreaseQuantityHandler(item)}
+                  >
                     <Remove />
                   </IconButton>
                   {item.quantity}
-                  <IconButton color="error">
+                  <IconButton
+                    color="error"
+                    onClick={() => increaseQuantityHandler(item)}
+                  >
                     <Add />
                   </IconButton>
                 </TableCell>
@@ -115,7 +114,7 @@ const CartPage = ({ product }: any) => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
     </Box>
   );
 };

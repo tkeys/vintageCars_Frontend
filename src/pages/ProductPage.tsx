@@ -14,7 +14,7 @@ import {
   selectProduct,
   selectProductsStatus,
 } from "../redux/slices/products/productSlice";
-import { addToCart } from "../redux/slices/cart/cartSlice";
+import { addToCart, removeFromCart } from "../redux/slices/cart/cartSlice";
 import ProductCard from "../components/ProductCard";
 import ProductsPage from "./ProductsPage";
 

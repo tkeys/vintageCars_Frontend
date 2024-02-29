@@ -16,8 +16,15 @@ import { useTheme } from "./context/ThemeContext";
 import { ThemeProvider } from "@mui/material/styles";
 import createTheme from "@mui/material/styles/createTheme";
 import { Container } from "@mui/material";
+import Login from "./components/Login/Login";
+import { useSelector } from "react-redux";
 
 function App() {
+  const user = useSelector((state: any) => state.user.user);
+  const { authUser } = user;
+  console.log("user", user);
+  console.log("authUser", authUser);
+
   const [darkMode, setDarkMode] = useState(false);
   const paletteType = darkMode ? "dark" : "light";
   const theme = createTheme({
@@ -36,7 +43,8 @@ function App() {
 
         <Container>
           <Routes>
-            <Route path="/" element={<Homepage />} />
+            <Route path="/" element={authUser ? <Homepage /> : <Login />} />
+            {/* <Route path="login" element={<Login />} /> */}
             <Route path="products" element={<ProductsPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="cart" element={<CartPage />} />

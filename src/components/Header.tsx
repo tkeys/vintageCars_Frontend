@@ -214,7 +214,12 @@ function Header({ darkMode, handleThemeChange }: Props) {
           >
             {rightLinks.map(({ title, path }) => (
               <MenuItem key={path} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">
+                <Typography
+                  textAlign="center"
+                  component={NavLink}
+                  to={path}
+                  key={path}
+                >
                   {title.toUpperCase()}
                 </Typography>
               </MenuItem>

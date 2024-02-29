@@ -6,10 +6,12 @@ import {
   fetchProducts,
   filterProductsByCategory,
   sortProductsByPrice,
+  selectProductsStatus,
 } from "../redux/slices/products/productSlice";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   MenuItem,
@@ -23,6 +25,7 @@ const ProductsPage = () => {
   const products = useSelector(selectProducts);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const status = useSelector(selectProductsStatus);
 
   const categories = [
     "Electronics",
@@ -39,6 +42,21 @@ const ProductsPage = () => {
     console.log("Fetching products");
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  if (status === "loading") {
+    console.log("Loading product details...");
+    return <CircularProgress />;
+  }
+
+  if (status === "failure" || !products) {
+    console.log("Failed to load product details or product not found...");
+    return (
+      <Typography variant="h5">
+        Products not found or an error occured
+      </Typography>
+    );
+  }
+  console.log("Displaying products...");
 
   const handleCategoryChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -60,7 +78,7 @@ const ProductsPage = () => {
     <div>
       <Box sx={{ flexGrow: 1, p: 3 }}>
         <Typography variant="h4" gutterBottom>
-          All Products
+          Our Products
         </Typography>
 
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -91,14 +109,7 @@ const ProductsPage = () => {
                   color="primary"
                   onClick={toggleSortOrder}
                 >
-                  Price
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={toggleSortOrder}
-                >
-                  Name
+                  {`Sort by Price ${sortOrder.toUpperCase()}`}
                 </Button>
               </Box>
             </Box>

@@ -13,8 +13,67 @@ import {
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import React from "react";
+import {
+  incrementQuantity,
+  selectCartItems,
+} from "../redux/slices/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { decrementQuantity } from "../redux/slices/cart/cartSlice";
+import { useParams } from "react-router-dom";
+import {
+  selectProducts,
+  selectProductsStatus,
+} from "../redux/slices/products/productSlice";
+
+interface Product {
+  id: string;
+  title: string;
+  price: number;
+  description: string;
+  category: Category;
+  images: string[];
+}
+
+interface CartItem {
+  productId: string;
+  quantity: number;
+  price: number;
+  title: string;
+  description: string;
+  image?: string;
+  /* category?: Category; */
+}
+
+interface Category {
+  id: number;
+  name: string;
+  image: string;
+}
+interface CartState {
+  items: CartItem[];
+}
+
+const initialState: CartState = {
+  items: [],
+};
+interface ProductCardProps {
+  product: Product;
+}
 
 const CartItem = ({ item }: any) => {
+  const products = useSelector(selectProducts);
+  const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
+  const { id } = useParams<{ id: string }>();
+  const status = useSelector(selectProductsStatus);
+
+  function increaseQuantityHandler(item: CartItem) {
+    dispatch(incrementQuantity(item));
+  }
+  function decreaseQuantityHandler(item: CartItem) {
+    dispatch(decrementQuantity(item));
+  }
+
   return (
     <>
       {/* <CardMedia
@@ -32,11 +91,8 @@ const CartItem = ({ item }: any) => {
       </Typography>
       <Typography variant="h4" gutterBottom>
         Quantity:{item.quantity}
-      </Typography>
-      <Typography variant="h4" gutterBottom>
-        ProductId:{item.productId}
-      </Typography>
- */}
+      </Typography> */}
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
@@ -48,8 +104,10 @@ const CartItem = ({ item }: any) => {
               {/* <TableCell align="right"></TableCell> */}
             </TableRow>
           </TableHead>
-          <TableBody sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-            <TableRow>
+          <TableBody>
+            <TableRow
+            /* sx={{ "&:last-child td, &:last-child th": { border: 0 } }} */
+            >
               <TableCell component="th" scope="row">
                 <Box display="flex" alignItems="centre">
                   <img
@@ -61,13 +119,19 @@ const CartItem = ({ item }: any) => {
                 </Box>
               </TableCell>
 
-              <TableCell align="center">${item.price}</TableCell>
+              <TableCell align="right">${item.price}</TableCell>
               <TableCell align="right">
-                <IconButton color="error">
+                <IconButton
+                  color="error"
+                  onClick={() => decreaseQuantityHandler(item)}
+                >
                   <Remove />
                 </IconButton>
                 {item.quantity}
-                <IconButton color="error">
+                <IconButton
+                  color="error"
+                  onClick={() => increaseQuantityHandler(item)}
+                >
                   <Add />
                 </IconButton>
               </TableCell>
