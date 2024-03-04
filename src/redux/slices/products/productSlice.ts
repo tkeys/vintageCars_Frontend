@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { RootState } from "../../store";
 
 interface Product {
@@ -8,6 +8,13 @@ interface Product {
   price: number;
   description: string;
   category: Category;
+  images: string[];
+}
+interface ProductCreate {
+  title: string;
+  price: number;
+  description: string;
+  categoryId: number;
   images: string[];
 }
 
@@ -90,6 +97,23 @@ export const sortProductsByPrice = createAsyncThunk(
   }
 );
 
+// To create new product
+export const createNewProductAsync = createAsyncThunk(
+  "createNewProductAsync",
+  async (newProduct: ProductCreate, { rejectWithValue }) => {
+    try {
+      const result = await axios.post<Product>(
+        `https://api.escuelajs.co/api/v1/products/`,
+        newProduct
+      );
+      return result.data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState,
@@ -151,6 +175,10 @@ const productSlice = createSlice({
         console.log("sorted products by price successful");
       }
     );
+    builder.addCase(createNewProductAsync.fulfilled, (state, action) => {
+      state.products.push(action.payload);
+      console.log("created new product successful");
+    });
   },
 });
 

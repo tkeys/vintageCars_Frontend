@@ -44,7 +44,8 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={authUser ? <Homepage /> : <Login />} />
-            {/* <Route path="login" element={<Login />} /> */}
+            <Route path="/" element={<Homepage />} />
+            <Route path="login" element={<Login />} />
             <Route path="products" element={<ProductsPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="cart" element={<CartPage />} />

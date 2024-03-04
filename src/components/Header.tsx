@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -21,6 +22,8 @@ import {
 } from "@mui/material";
 import { ShoppingCart, ShoppingCartCheckout } from "@mui/icons-material";
 import Badge from "@mui/material/Badge";
+import { logout } from "../../src/redux/slices/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 interface Props {
   darkMode: boolean;
@@ -111,6 +114,8 @@ function Header({ darkMode, handleThemeChange }: Props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const dispatch = useDispatch();
   return (
     <AppBar position="static">
       <Toolbar
@@ -128,6 +133,9 @@ function Header({ darkMode, handleThemeChange }: Props) {
           noWrap
         >
           <BalconyIcon sx={{ fontSize: 100 }} />
+          <Box>
+            <Button>oys logout</Button>
+          </Box>
         </Typography>
         <FormControlLabel
           control={
@@ -219,6 +227,7 @@ function Header({ darkMode, handleThemeChange }: Props) {
                   component={NavLink}
                   to={path}
                   key={path}
+                  onClick={() => dispatch(logout())}
                 >
                   {title.toUpperCase()}
                 </Typography>
