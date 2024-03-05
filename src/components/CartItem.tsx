@@ -1,5 +1,6 @@
 import { Add, Delete, Height, Remove } from "@mui/icons-material";
 import {
+  Button,
   CardMedia,
   IconButton,
   Paper,
@@ -16,6 +17,8 @@ import React from "react";
 import {
   incrementQuantity,
   selectCartItems,
+  clearCart,
+  removeFromCart,
 } from "../redux/slices/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { decrementQuantity } from "../redux/slices/cart/cartSlice";
@@ -74,25 +77,16 @@ const CartItem = ({ item }: any) => {
     dispatch(decrementQuantity(item));
   }
 
+  function removeFromCartHandler() {
+    dispatch(removeFromCart(item.productId));
+  }
+
+  function clearFromCartHandler() {
+    dispatch(clearCart());
+  }
+
   return (
     <>
-      {/* <CardMedia
-        component="img"
-        height={140}
-        image={item.image}
-        alt={item.title}
-      ></CardMedia>
-
-      <Typography variant="h4" gutterBottom>
-        Product:{item.title}
-      </Typography>
-      <Typography variant="h4" gutterBottom>
-        Price:${item.price}
-      </Typography>
-      <Typography variant="h4" gutterBottom>
-        Quantity:{item.quantity}
-      </Typography> */}
-
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
@@ -137,7 +131,10 @@ const CartItem = ({ item }: any) => {
               </TableCell>
               <TableCell align="right">${item.price * item.quantity}</TableCell>
               <TableCell align="right">
-                <IconButton color="error">
+                <IconButton
+                  color="error"
+                  onClick={() => removeFromCartHandler()}
+                >
                   <Delete />
                 </IconButton>
               </TableCell>
@@ -145,6 +142,15 @@ const CartItem = ({ item }: any) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {/*  <Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => clearFromCartHandler()}
+        >
+          Clear Cart
+        </Button>
+      </Box> */}
     </>
   );
 };

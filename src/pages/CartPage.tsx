@@ -53,68 +53,15 @@ const CartPage = ({ product }: any) => {
         ) : (
           <Typography>Cart is empty</Typography>
         )}
-        <Button variant="contained" color="primary">
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => console.log("Check out process begins")}
+        >
           Checkout
         </Button>
       </Typography>
-
-      {/* <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Product</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Quantity</TableCell>
-              <TableCell align="right">Subtotal</TableCell>
-              {/* <TableCell align="right"></TableCell> */}
-      {/*  </TableRow>
-          </TableHead>
-          <TableBody>
-            {cartItems.map((item) => (
-              <TableRow
-                key={item.productId}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  <Box display="flex" alignItems="centre">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      style={{ height: 50, marginRight: 20 }}
-                    ></img>
-                    {item.title}
-                  </Box>
-                </TableCell>
-
-                <TableCell align="right">${item.price}</TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    color="error"
-                    onClick={() => decreaseQuantityHandler(item)}
-                  >
-                    <Remove />
-                  </IconButton>
-                  {item.quantity}
-                  <IconButton
-                    color="error"
-                    onClick={() => increaseQuantityHandler(item)}
-                  >
-                    <Add />
-                  </IconButton>
-                </TableCell>
-                <TableCell align="right">
-                  ${item.price * item.quantity}
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton color="error">
-                    <Delete />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
     </Box>
   );
 };

@@ -2,6 +2,9 @@
 
 # eMart
 
+![Homepage](./src/images/homepage.JPG)
+![Login page](./src/images/loginn.JPG)
+
 An innovative e-commerce platform designed to simplify your shopping experience. eMart enables users to browse through a wide range of products, manage their shopping cart, register, and login to access personalized features. Crafted with TypeScript and Redux Toolkit for the frontend and robust Node.js will be used in the backend, eMart exemplifies a responsive and user-friendly shopping environment.
 
 ## Overview
@@ -34,7 +37,16 @@ An innovative e-commerce platform designed to simplify your shopping experience.
 2. Navigate to the directories to install dependencies using `npm install`.
 3. Configure your `.env` files in the respective directories as per provided specifications.
 4. Execute `npm start` in the backend directory to launch the server.
-5. Concurrently, run `npm start` in the emart-frontend directory to serve the React application.
+5. Concurrently, run `npm start` in the Frontend-project directory to serve the React application.
+
+### Testing
+
+- Run `npm test` in the frontend directory to run the tests.
+  -Test is carried out on the product reducers using React testing library and Jest.
+
+### Deployment
+
+-The project is ready to be deployed to Netlify with this link: https://emart-frontend-project.netlify.app/
 
 ## License
 
