@@ -33,7 +33,7 @@ interface Props {
 const midLinks = [
   { title: "Home", path: "/" },
   { title: "Products", path: "/products" },
-  { title: "Contact", path: "/contact" },
+  { title: "Admin", path: "/admin" },
 ];
 
 const rightLinks = [
@@ -133,9 +133,6 @@ function Header({ darkMode, handleThemeChange }: Props) {
           noWrap
         >
           <BalconyIcon sx={{ fontSize: 100 }} />
-          <Box>
-            <Button>oys logout</Button>
-          </Box>
         </Typography>
         <FormControlLabel
           control={
@@ -171,7 +168,7 @@ function Header({ darkMode, handleThemeChange }: Props) {
           <IconButton size="large" edge="start" color="inherit" sx={{ mr: 2 }}>
             <Badge
               color="secondary"
-              badgeContent={4}
+              badgeContent={6}
               component={NavLink}
               to="/cart"
             >

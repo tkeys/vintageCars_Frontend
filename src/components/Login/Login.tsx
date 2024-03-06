@@ -17,6 +17,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/auth/authSlice";
+import { BannerImage } from "../../pages/BannerImage";
+import bannerpix from "../../images/bannerpix.jpg";
 
 function Copyright(props: any) {
   return (
@@ -62,6 +64,7 @@ const Login: React.FC = () => {
 
   return (
     /*  <ThemeProvider /* theme={defaultTheme}> */
+
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box

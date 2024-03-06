@@ -18,6 +18,8 @@ import createTheme from "@mui/material/styles/createTheme";
 import { Container } from "@mui/material";
 import Login from "./components/Login/Login";
 import { useSelector } from "react-redux";
+import AdminPage from "./pages/AdminPage";
+import CheckoutPage from "./components/CheckoutPage";
 
 function App() {
   const user = useSelector((state: any) => state.user.user);
@@ -43,13 +45,17 @@ function App() {
 
         <Container>
           <Routes>
-            <Route path="/" element={authUser ? <Homepage /> : <Login />} />
+            <Route
+              path="admin"
+              element={authUser ? <AdminPage /> : <Login />}
+            />
             <Route path="/" element={<Homepage />} />
             <Route path="login" element={<Login />} />
             <Route path="products" element={<ProductsPage />} />
-            <Route path="contact" element={<ContactPage />} />
+            {/* <Route path="admin" element={<AdminPage />} /> */}
             <Route path="cart" element={<CartPage />} />
             <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="checkout" element={<CheckoutPage />} />
           </Routes>
         </Container>
       </div>

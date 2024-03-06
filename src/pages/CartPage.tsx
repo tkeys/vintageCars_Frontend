@@ -25,7 +25,7 @@ import {
 } from "../redux/slices/products/productSlice";
 import { useDispatch } from "react-redux";
 import { Type } from "typescript";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   incrementQuantity,
   decrementQuantity,
@@ -57,7 +57,8 @@ const CartPage = ({ product }: any) => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => console.log("Check out process begins")}
+          component={Link}
+          to="/checkout"
         >
           Checkout
         </Button>

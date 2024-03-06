@@ -30,7 +30,7 @@ interface ProductState {
   status: "idle" | "loading" | "failure";
 }
 
-const initialState: ProductState = {
+export const initialState: ProductState = {
   products: [],
   status: "idle",
 };
