@@ -20,10 +20,10 @@ import {
   Tooltip,
   styled,
 } from "@mui/material";
-import { ShoppingCart, ShoppingCartCheckout } from "@mui/icons-material";
+import { ShoppingCart } from "@mui/icons-material";
 import Badge from "@mui/material/Badge";
 import { logout } from "../../src/redux/slices/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 interface Props {
   darkMode: boolean;
@@ -42,7 +42,7 @@ const rightLinks = [
     path: "/login",
   },
   { title: "Register", path: "/register" },
-  { title: "Logout", path: "/logout" },
+  { title: "Logout", path: "/login" },
 ];
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -116,6 +116,14 @@ function Header({ darkMode, handleThemeChange }: Props) {
   };
 
   const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.user.user);
+  const { name } = user;
+  const cartItems = useSelector((state: any) => state.cart);
+  const cartQuantity = cartItems.items.reduce(
+    (qty: number, item: any) => qty + item.quantity,
+    0
+  );
+
   return (
     <AppBar position="static">
       <Toolbar
@@ -133,6 +141,7 @@ function Header({ darkMode, handleThemeChange }: Props) {
           noWrap
         >
           <BalconyIcon sx={{ fontSize: 100 }} />
+          <p> {name}</p>
         </Typography>
         <FormControlLabel
           control={
@@ -168,7 +177,7 @@ function Header({ darkMode, handleThemeChange }: Props) {
           <IconButton size="large" edge="start" color="inherit" sx={{ mr: 2 }}>
             <Badge
               color="secondary"
-              badgeContent={6}
+              badgeContent={cartQuantity}
               component={NavLink}
               to="/cart"
             >

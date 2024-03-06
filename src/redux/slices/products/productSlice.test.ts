@@ -1,31 +1,163 @@
-import productReducer from "./productSlice";
+import productReducer, {
+  initialState,
+  fetchProducts,
+  fetchProduct,
+  filterProductsByCategory,
+  sortProductsByPrice,
+  createNewProductAsync,
+} from "./productSlice";
+import { Product, ProductCreate } from "./productSlice";
 
-import { fetchProducts, fetchProduct } from "./productSlice";
+describe("productReducer", () => {
+  it("should handle fetchProducts.pending", () => {
+    const nextState = productReducer(
+      initialState,
+      fetchProducts.pending("pending")
+    );
+    expect(nextState.status).toBe("loading");
+  });
 
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  description: string;
-  category: Category;
-  images: string[];
-}
+  it("should handle fetchProducts.fulfilled", () => {
+    const products: Product[] = [
+      {
+        id: "1",
+        title: "Product 1",
+        price: 10,
+        description: "",
+        category: { id: "1", name: "Category 1", image: "" },
+        images: [],
+      },
+      {
+        id: "2",
+        title: "Product 2",
+        price: 20,
+        description: "",
+        category: { id: "2", name: "Category 2", image: "" },
+        images: [],
+      },
+    ];
+    const nextState = productReducer(
+      initialState,
+      fetchProducts.fulfilled(products, "fulfilled")
+    );
+    expect(nextState.status).toBe("idle");
+    expect(nextState.products).toEqual(products);
+  });
 
-interface Category {
-  id: string;
-  name: string;
-  image: string;
-}
-interface ProductState {
-  products: Product[];
-  product?: Product;
-  status: "idle" | "loading" | "failure";
-}
+  it("should handle fetchProducts.rejected", () => {
+    const nextState = productReducer(
+      initialState,
+      fetchProducts.rejected(null, "failure")
+    );
+    expect(nextState.status).toBe("failure");
+  });
 
-const initialState: ProductState = {
-  products: [],
-  status: "idle",
-};
+  it("should handle fetchProduct.pending", () => {
+    const nextState = productReducer(
+      initialState,
+      fetchProduct.pending("pending", "1")
+    );
+    expect(nextState.status).toBe("loading");
+  });
+
+  it("should handle fetchProduct.fulfilled", () => {
+    const product: Product = {
+      id: "1",
+      title: "Product 1",
+      price: 10,
+      description: "",
+      category: { id: "1", name: "Category 1", image: "" },
+      images: [],
+    };
+    const nextState = productReducer(
+      initialState,
+      fetchProduct.fulfilled(product, "fulfilled", "1")
+    );
+    expect(nextState.status).toBe("idle");
+    expect(nextState.product).toEqual(product);
+  });
+
+  it("should handle fetchProduct.rejected", () => {
+    const nextState = productReducer(
+      initialState,
+      fetchProduct.rejected(null, "failure", "1")
+    );
+    expect(nextState.status).toBe("failure");
+  });
+
+  /* it("should handle filterProductsByCategory.fulfilled", () => {
+    const filteredProducts: Product[] = [
+      {
+        id: "1",
+        title: "Product 1",
+        price: 10,
+        description: "",
+        category: { id: "1", name: "Category 1", image: "" },
+        images: [],
+      },
+    ];
+    const nextState = productReducer(
+      initialState,
+      filterProductsByCategory.fulfilled(filteredProducts)
+    );
+    expect(nextState.products).toEqual(filteredProducts);
+  });
+ */
+  it("should handle filterProductsByCategory.rejected", () => {
+    const nextState = productReducer(
+      initialState,
+      filterProductsByCategory.rejected(null, "Category 1", "")
+    );
+    expect(nextState.status).toBe("failure");
+  });
+
+  it("should handle sortProductsByPrice.fulfilled", () => {
+    const sortedProducts: Product[] = [
+      {
+        id: "1",
+        title: "Product 1",
+        price: 10,
+        description: "",
+        category: { id: "1", name: "Category 1", image: "" },
+        images: [],
+      },
+      {
+        id: "2",
+        title: "Product 2",
+        price: 20,
+        description: "",
+        category: { id: "2", name: "Category 2", image: "" },
+        images: [],
+      },
+    ];
+    const nextState = productReducer(
+      initialState,
+      sortProductsByPrice.fulfilled(sortedProducts, "asc", "asc")
+    );
+    expect(nextState.products).toEqual(sortedProducts);
+  });
+
+  /* it("should handle createNewProductAsync.fulfilled", () => {
+    const newProduct: ProductCreate = {
+      title: "New Product",
+      price: 30,
+      description: "",
+      categoryId: 1,
+      images: [],
+    };
+    const createdProduct: Product = {
+      id: "3",
+      ...newProduct,
+      category: { id: "1", name: "Category 1", image: "" },
+    };
+    const nextState = productReducer(
+      initialState,
+      createNewProductAsync.fulfilled(createdProduct, "fulfilled")
+    );
+    expect(nextState.products).toContain(createdProduct);
+  }); */
+});
+
 const mockProducts: Product[] = [
   {
     id: "1",
@@ -68,60 +200,9 @@ it("should return a list of products", () => {
     status: "idle",
   });
 });
-it("should return a single product", () => {
-  const state = productReducer(
-    initialState,
-    fetchProduct.fulfilled(mockProducts[0], "fulfilled", "1")
-  );
-
-  expect(state).toEqual({
-    products: mockProducts,
-    status: "idle",
-    product: mockProducts[0],
-  });
-});
 
 it("should load truthy when fetch is pending", () => {
   const state = productReducer(initialState, fetchProducts.pending("pending"));
 
   expect(state).toEqual({ products: [], status: "loading" });
 });
-
-/* describe("fetchProduct action", () => {
-  it("creates fulfilled action when fetching product has been done", () => {
-    const productId = "123";
-    const store = mockProducts;
-    const expectedProduct = {
-      id: "123",
-      title: "Test Product",
-      description: "This is a test description",
-      price: 100,
-      category: "test category",
-      imageUrl: "test.png",
-    };
-
-    fetchProduct.fulfilled(productId));
-
-    
-
-    expect(store[0].type).toEqual("product/fetchProduct/pending");
-    expect(actions[1].type).toEqual("product/fetchProduct/fulfilled");
-    expect(actions[1].payload).toEqual(expectedProduct);
-  });
-
-  it("creates rejected action when fetching product fails", async () => {
-    const productId = "nonexistent";
-    const store = mockStore({ type: "any" });
-    mockedAxios.get.mockRejectedValueOnce(new Error("Product not found"));
-
-    await store.dispatch<any>(productActions.fetchProduct(productId));
-
-    const actions = store.getActions();
-
-    expect(actions[0].type).toEqual("product/fetchProductById/pending");
-    expect(actions[1].type).toEqual("product/fetchProductById/rejected");
-    expect(actions[1].error.message).toEqual("Product not found");
-  });
-});
-
-/ */

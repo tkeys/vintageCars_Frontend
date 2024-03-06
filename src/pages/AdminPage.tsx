@@ -28,7 +28,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        emart
+        Emart-Integrify project
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -130,7 +130,6 @@ export default function Dashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
               <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
@@ -141,18 +140,7 @@ export default function Dashboard() {
                   }}
                 ></Paper>
               </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                ></Paper>
-              </Grid>
-              {/* Recent Orders */}
+              <Typography>Welcome to the Admin Page</Typography>
               <Grid item xs={12}>
                 <Paper
                   sx={{ p: 2, display: "flex", flexDirection: "column" }}

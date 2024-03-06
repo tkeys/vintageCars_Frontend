@@ -2,6 +2,7 @@ import { Add, Delete, Height, Remove } from "@mui/icons-material";
 import {
   Button,
   CardMedia,
+  Grid,
   IconButton,
   Paper,
   Table,
@@ -27,6 +28,7 @@ import {
   selectProducts,
   selectProductsStatus,
 } from "../redux/slices/products/productSlice";
+import CartSummary from "./CartSummary";
 
 interface Product {
   id: string;
@@ -142,15 +144,12 @@ const CartItem = ({ item }: any) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/*  <Box>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => clearFromCartHandler()}
-        >
-          Clear Cart
-        </Button>
-      </Box> */}
+      {/* <Grid container>
+        <Grid item xs={6} />
+        <Grid item xs={6}>
+          <CartSummary />
+        </Grid>
+      </Grid> */}
     </>
   );
 };

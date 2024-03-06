@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { RootState } from "../../store";
 
-interface Product {
+export interface Product {
   id: string;
   title: string;
   price: number;
@@ -10,7 +10,7 @@ interface Product {
   category: Category;
   images: string[];
 }
-interface ProductCreate {
+export interface ProductCreate {
   title: string;
   price: number;
   description: string;

@@ -8,7 +8,7 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import ProductsPage from "./ProductsPage";
+
 import { BannerImage } from "./BannerImage";
 import bannerpix from "../images/bannerpix.jpg";
 import { Link, NavLink } from "react-router-dom";
