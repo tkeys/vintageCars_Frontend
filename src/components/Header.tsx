@@ -42,7 +42,7 @@ const rightLinks = [
     path: "/login",
   },
   { title: "Register", path: "/register" },
-  { title: "Logout", path: "/login" },
+  { title: "Logout", path: "/" },
 ];
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({

@@ -67,12 +67,13 @@ export const fetchProduct = createAsyncThunk(
     }
   }
 );
+
 export const filterProductsByCategory = createAsyncThunk(
   "product / filterProductsByCategory",
-  async (categoryName: string, { rejectWithValue }) => {
+  async (category: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `https://api.escuelajs.co/api/v1/products/?categoryId=${categoryName}`
+        `https://api.escuelajs.co/api/v1/products/?categoryId=${category}`
       );
       console.log(`Fetching product for categories successful`);
       console.log("adekunle adejumo", response.data);

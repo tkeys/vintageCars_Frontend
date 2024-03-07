@@ -15,6 +15,7 @@ import {
 } from "../redux/slices/products/productSlice";
 
 import { Link, useParams } from "react-router-dom";
+import { Paper } from "@mui/material";
 
 const CartPage = ({ product }: any) => {
   const products = useSelector(selectProducts);

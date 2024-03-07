@@ -27,16 +27,7 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const status = useSelector(selectProductsStatus);
 
-  const categories = [
-    "Electronics",
-    "Books",
-    "Clothes",
-    "Home",
-    "Sports",
-    "Furniture",
-    "Shoes",
-    "Miscellaneous",
-  ];
+  const categories = ["1", "2", "3", "4", "5"];
 
   useEffect(() => {
     console.log("Fetching products");

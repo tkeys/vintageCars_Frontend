@@ -63,14 +63,15 @@ const ProductPage = () => {
   console.log("Displaying product details...");
 
   return (
-    <Box>
+    <Box sx={{ maxWidth: 600, margin: "auto" }}>
       <CardMedia
         component="img"
-        height={140}
+        height={300}
+        width={200}
         image={product.category.image}
         alt={product.title}
       ></CardMedia>
-      <Typography variant="h3">product detail</Typography>
+      {/* <Typography variant="h3">Product Detail</Typography> */}
       <Typography variant="h4">{product.title}</Typography>
       <Typography variant="body1">{product.description}</Typography>
       <Typography variant="h6"> ${product.price}</Typography>
