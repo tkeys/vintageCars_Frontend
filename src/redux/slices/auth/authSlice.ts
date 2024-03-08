@@ -26,13 +26,13 @@ export const authSlice = createSlice({
   reducers: {
     login: (state, action: PayloadAction<User>) => {
       const userId = action.payload;
-      const userValidation = /^[a-zA-Z0-9_.]$/.test(userId.name);
+      const userValidation = /^[A-zA-z]{4,10}$/i.test(userId.name);
       const passwordValidation =
         /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,10}$/i.test(
           userId.password
         );
       state.user = userId;
-      if (userValidation && passwordValidation) {
+      if (!userValidation || !passwordValidation) {
         state.user.authUser = false;
       } else {
         state.user.authUser = true;

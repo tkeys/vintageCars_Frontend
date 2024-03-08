@@ -71,7 +71,7 @@ const ProductPage = () => {
         image={product.category.image}
         alt={product.title}
       ></CardMedia>
-      {/* <Typography variant="h3">Product Detail</Typography> */}
+
       <Typography variant="h4">{product.title}</Typography>
       <Typography variant="body1">{product.description}</Typography>
       <Typography variant="h6"> ${product.price}</Typography>

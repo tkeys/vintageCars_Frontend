@@ -85,24 +85,6 @@ describe("productReducer", () => {
     expect(nextState.status).toBe("failure");
   });
 
-  /* it("should handle filterProductsByCategory.fulfilled", () => {
-    const filteredProducts: Product[] = [
-      {
-        id: "1",
-        title: "Product 1",
-        price: 10,
-        description: "",
-        category: { id: "1", name: "Category 1", image: "" },
-        images: [],
-      },
-    ];
-    const nextState = productReducer(
-      initialState,
-      filterProductsByCategory.fulfilled(filteredProducts)
-    );
-    expect(nextState.products).toEqual(filteredProducts);
-  });
- */
   it("should handle filterProductsByCategory.rejected", () => {
     const nextState = productReducer(
       initialState,

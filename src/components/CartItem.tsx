@@ -97,13 +97,10 @@ const CartItem = ({ item }: any) => {
               <TableCell align="right">Price</TableCell>
               <TableCell align="right">Quantity</TableCell>
               <TableCell align="right">Subtotal</TableCell>
-              {/* <TableCell align="right"></TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow
-            /* sx={{ "&:last-child td, &:last-child th": { border: 0 } }} */
-            >
+            <TableRow>
               <TableCell component="th" scope="row">
                 <Box display="flex" alignItems="centre">
                   <img

@@ -76,7 +76,7 @@ export const filterProductsByCategory = createAsyncThunk(
         `https://api.escuelajs.co/api/v1/products/?categoryId=${category}`
       );
       console.log(`Fetching product for categories successful`);
-      console.log("adekunle adejumo", response.data);
+      console.log("response", response.data);
       return response.data;
     } catch (error: any) {
       console.log("fetching product failed", error.message, error.response);
@@ -98,7 +98,6 @@ export const sortProductsByPrice = createAsyncThunk(
   }
 );
 
-// To create new product
 export const createNewProductAsync = createAsyncThunk(
   "createNewProductAsync",
   async (newProduct: ProductCreate, { rejectWithValue }) => {

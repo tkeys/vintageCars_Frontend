@@ -12,13 +12,10 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { useState, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/auth/authSlice";
-import { BannerImage } from "../../pages/BannerImage";
-import bannerpix from "../../images/bannerpix.jpg";
 
 function Copyright(props: any) {
   return (
