@@ -46,7 +46,7 @@ An innovative e-commerce platform designed to simplify your shopping experience.
 
 ### Deployment
 
--The project is ready to be deployed to Netlify with this link: https://emart-frontend-project.netlify.app/
+-The project is ready to be deployed to Netlify with this link: https://fs17-e-commerce-project.vercel.app/
 
 ## License
 
