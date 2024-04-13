@@ -1,66 +1,21 @@
-import React, { useState } from "react";
-import "./App.css";
-import ProductsPage from "./pages/ProductsPage";
+import React from "react";
+import { Container } from "react-bootstrap";
 import Header from "./components/Header";
+import HomePage from "./pages/Homepage";
+import { Outlet } from "react-router-dom";
 
-/*import ProductPage from "./pages/ProductPage";*/
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import ProductPage from "./pages/ProductPage";
-import Homepage from "./pages/Homepage";
-import { ContactPage } from "@mui/icons-material";
-import CartPage from "./pages/CartPage";
-import Button from "@mui/material/Button";
-import { error } from "console";
-import { useTheme } from "./context/ThemeContext";
-import { ThemeProvider } from "@mui/material/styles";
-import createTheme from "@mui/material/styles/createTheme";
-import { Container } from "@mui/material";
-import Login from "./components/Login/Login";
-import { useSelector } from "react-redux";
-import AdminPage from "./pages/AdminPage";
-import CheckoutPage from "./components/CheckoutPage";
-
-function App() {
-  const user = useSelector((state: any) => state.user.user);
-  const { authUser } = user;
-  console.log("user", user);
-  console.log("authUser", authUser);
-
-  const [darkMode, setDarkMode] = useState(false);
-  const paletteType = darkMode ? "dark" : "light";
-  const theme = createTheme({
-    palette: {
-      mode: paletteType,
-    },
-  });
-
-  function handleThemeChange() {
-    setDarkMode(!darkMode);
-  }
+const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
-
+    <>
+      <Header />
+      <main className="py-3">
         <Container>
-          <Routes>
-            <Route
-              path="admin"
-              element={authUser ? <AdminPage /> : <Login />}
-            />
-            <Route path="/" element={<Homepage />} />
-            <Route path="login" element={<Login />} />
-            <Route path="products" element={<ProductsPage />} />
-
-            <Route path="cart" element={<CartPage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="checkout" element={<CheckoutPage />} />
-          </Routes>
+          <h1>Welcome to MCAR Shop</h1>
+          <Outlet />
         </Container>
-      </div>
-    </ThemeProvider>
+      </main>
+    </>
   );
-}
+};
 
 export default App;

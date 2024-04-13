@@ -1,29 +1,39 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
 
-import { BannerImage } from "./BannerImage";
-import bannerpix from "../images/bannerpix.jpg";
-import { Link, NavLink } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
+import products from "../components/products";
+import ProductCard from "../components/ProductCard";
+import { Product } from "../misc/type";
+import { useFetchProductsQuery } from "../redux/slices/products/productSlice";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
-function Homepage() {
+const HomePage = () => {
+  const { data: products, isLoading, error } = useFetchProductsQuery();
+  if (!products) {
+    return <Loader />;
+  }
+
   return (
-    <Box>
-      <BannerImage src={bannerpix} alt="banner" />
-
-      <Typography variant="h2">Welcome to a world of Shopping</Typography>
-      <Button variant="contained" component={NavLink} to="/products">
-        GO TO SHOP
-      </Button>
-    </Box>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">error?.data?.message || error.error</Message>
+      ) : (
+        <>
+          <h1>Latest products</h1>;
+          <Row>
+            {products.map((product: Product) => (
+              <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
+                <ProductCard product={product} />
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
+    </>
   );
-}
+};
 
-export default Homepage;
+export default HomePage;

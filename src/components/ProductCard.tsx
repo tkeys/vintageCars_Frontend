@@ -1,84 +1,27 @@
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-} from "@mui/material";
 import React from "react";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { addToCart, removeFromCart } from "../redux/slices/cart/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectProductsStatus,
-  selectProduct,
-} from "../redux/slices/products/productSlice";
+import Rating from "./Rating";
 
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  description: string;
-  category: Category;
-  images: string[];
-}
-
-interface Category {
-  id: number;
-  name: string;
-  image: string;
-}
-
-interface ProductCardProps {
-  product: Product;
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const dispatch = useDispatch<any>();
-  const status = useSelector(selectProductsStatus);
-
-  function handleAddToCart() {
-    dispatch(
-      addToCart({
-        productId: product.id,
-        quantity: 1,
-        price: product.price,
-        title: product.title,
-        description: "",
-        image: product.category.image,
-      })
-    );
-  }
-
+const ProductCard = ({ product: product }: any) => {
   return (
-    <Card>
-      <CardMedia
-        component="img"
-        sx={{ height: 140, backgroundSize: "contain" }}
-        image={product.category.image}
-        alt={product.title}
-      ></CardMedia>
+    <Card className="my-3 p-3 rounded">
+      <Link to={`/product/${product.id}`}>
+        <Card.Img src={product.image} variant="top" />
+      </Link>
+      <Card.Body>
+        <Link to={`/product/${product.id}`}>
+          <Card.Title as="div" className="product-title">
+            <strong>{product.name}</strong>
+          </Card.Title>
+        </Link>
 
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {product.title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {product.description}
-        </Typography>
-        <Typography variant="h5" color="text.secondary">
-          $ {product.price}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button component={Link} to={`/product/${product.id}`} size="small">
-          View
-        </Button>
-        <Button size="small" onClick={handleAddToCart}>
-          Add to Cart
-        </Button>
-      </CardActions>
+        <Card.Text as="div">
+          <Rating value={product.rating} text={""} />
+        </Card.Text>
+        <Card.Text as="h3">${product.price}</Card.Text>
+        <Card.Text as="h3">#{product.id}</Card.Text>
+      </Card.Body>
     </Card>
   );
 };

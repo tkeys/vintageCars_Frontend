@@ -1,85 +1,104 @@
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
-  Box,
+  Card,
+  Row,
+  Col,
+  Image,
+  ListGroup,
   Button,
-  CardMedia,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-
-import {
-  fetchProduct,
-  selectProduct,
-  selectProductsStatus,
-} from "../redux/slices/products/productSlice";
-import { addToCart, removeFromCart } from "../redux/slices/cart/cartSlice";
-import ProductCard from "../components/ProductCard";
-import ProductsPage from "./ProductsPage";
+  Form,
+} from "react-bootstrap";
+import Loader from "../components/Loader";
+import { Link } from "react-router-dom";
+import { useFetchProductQuery } from "../redux/slices/products/productSlice";
+import Message from "../components/Message";
+import { addToCart } from "../redux/slices/cart/cartSlice";
 
 const ProductPage = () => {
-  const dispatch = useDispatch<any>();
-  const { id } = useParams<{ id: string }>();
-  const status = useSelector(selectProductsStatus);
-  const product = useSelector(selectProduct);
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
 
-  useEffect(() => {
-    if (id) {
-      console.log(`Fetching product for productID: ${id}`);
-      dispatch(fetchProduct(id));
-    }
-  }, [dispatch, id]);
-
-  const handleAddToCart = () => {
-    if (product) {
-      console.log(`Adding to cart for productID: ${product.id}`);
-      dispatch(
-        addToCart({
-          productId: product.id,
-          quantity: 1,
-          price: product.price,
-          title: product.title,
-          description: "",
-
-          image: product.category.image,
-        })
-      );
-    }
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, quantity }));
+    navigate("/cart");
   };
-  if (status === "loading") {
-    console.log("Loading product details...");
-    return <CircularProgress />;
-  }
+  const productId = id ? +id : 1;
+  const { data: product, isLoading, error } = useFetchProductQuery(productId);
 
-  if (status === "failure" || !product) {
-    console.log("Failed to load product details or product not found...");
-    return (
-      <Typography variant="h5">
-        Product not found or an error occured
-      </Typography>
-    );
+  if (id) {
+    console.log(`fetching product for productID ${id}`);
   }
-  console.log("Displaying product details...");
 
   return (
-    <Box sx={{ maxWidth: 600, margin: "auto" }}>
-      <CardMedia
-        component="img"
-        height={300}
-        width={200}
-        image={product.category.image}
-        alt={product.title}
-      ></CardMedia>
+    <>
+      <Link className="btn btn-light my-3" to="/">
+        Go Back
+      </Link>
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">error?.data?.message || error.error</Message>
+      ) : (
+        <Row>
+          <Col md={5}>
+            <Image src={product.image} alt={product.title} fluid />
+          </Col>
+          <Col md={4}>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h3>{product.title}</h3>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <p>{product.description}</p>
+              </ListGroup.Item>
+              <ListGroup.Item>Price:${product.price}</ListGroup.Item>
+            </ListGroup>
+          </Col>
+          <Col md={3}>
+            <Card>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Price:</Col>
+                    <Col>
+                      <strong>${product.price}</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Quantity:</Col>
+                    <Col>
+                      <Form.Control
+                        as="select"
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                      >
+                        {Array.from({ length: 10 }, (x, i) => i + 1).map(
+                          (x) => (
+                            <option key={x} value={x}>
+                              {x}
+                            </option>
+                          )
+                        )}
+                      </Form.Control>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
 
-      <Typography variant="h4">{product.title}</Typography>
-      <Typography variant="body1">{product.description}</Typography>
-      <Typography variant="h6"> ${product.price}</Typography>
-
-      <Button variant="contained" onClick={handleAddToCart}>
-        Add to Cart
-      </Button>
-    </Box>
+                <ListGroup.Item>
+                  <Button onClick={addToCartHandler}>Add to Cart</Button>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+        </Row>
+      )}
+    </>
   );
 };
 
