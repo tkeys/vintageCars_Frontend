@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://api.escuelajs.co/api/v1",
+  baseUrl: "https://fakestoreapi.com/",
 });
 
 export const apiSlice = createApi({
