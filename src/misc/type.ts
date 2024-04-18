@@ -1,5 +1,8 @@
 export type Product = {
+  model: string;
+  year: number;
   id: string;
+  rating: number;
   title: string;
   price: number;
   description: string;
