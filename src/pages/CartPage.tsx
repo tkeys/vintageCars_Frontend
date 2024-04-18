@@ -24,11 +24,11 @@ const CartPage = () => {
   const addToCartHandler = (product: any, quantity: number) => {
     dispatch(addToCart({ ...product, quantity }));
   };
-  const removeFromCartHandler = (productId: string) => {
-    dispatch(removeFromCart(productId));
+  const removeFromCartHandler = (id: string) => {
+    dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
-    navigate("/login?redirect=/shipping");
+    navigate("/login?redirect=/payment");
   };
 
   return (
@@ -69,7 +69,7 @@ const CartPage = () => {
                   <Col md={2}>
                     <Button
                       variant="light"
-                      onClick={() => removeFromCartHandler(item.productId)}
+                      onClick={() => removeFromCartHandler(item.id)}
                     >
                       <FaTrash />
                     </Button>

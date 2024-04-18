@@ -9,6 +9,7 @@ import {
 
 import "./assets/styles/index.css";
 import "./assets/styles/bootstrap.custom.css";
+import PrivateRoute from "./components/PrivateRoute";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 
@@ -20,6 +21,9 @@ import HomePage from "./pages/Homepage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import PaymentPage from "./pages/PaymentPage";
+import OrderPage from "./pages/OrderPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +32,12 @@ const router = createBrowserRouter(
       <Route path="/product/:id" element={<ProductPage />}></Route>
       <Route path="/cart" element={<CartPage />}></Route>
       <Route path="/login" element={<LoginPage />}></Route>
+      <Route path="/register" element={<RegisterPage />}></Route>
+
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/payment" element={<PaymentPage />}></Route>
+        <Route path="/placeorder" element={<OrderPage />}></Route>
+      </Route>
     </Route>
   )
 );

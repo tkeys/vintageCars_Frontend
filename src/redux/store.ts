@@ -6,7 +6,7 @@ import authSliceReducer from "./slices/auth/authSlice";
 
 //import userReducer from "./slices/user/userSlice";
 
-export const store = configureStore({
+export const store: any = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     cart: cartSliceReducer,
@@ -18,5 +18,7 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-//export type AppDispatch = typeof store.dispatch;
+
+export type AppDispatch = typeof store.dispatch;
+
 export default store;

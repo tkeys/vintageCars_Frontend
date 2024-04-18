@@ -36,4 +36,11 @@ export interface CartItem {
 export interface CartState {
   cartItems: CartItem[];
   itemsPrice: number;
+  paymentMethod: string;
 }
+export type Order = {
+  //userId: string;
+  paymentMethod: string;
+  orderItems: [];
+  itemsPrice: number;
+};
