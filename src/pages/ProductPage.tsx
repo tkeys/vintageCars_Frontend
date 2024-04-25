@@ -15,22 +15,32 @@ import { Link } from "react-router-dom";
 import { useFetchProductQuery } from "../redux/slices/products/productSlice";
 import Message from "../components/Message";
 import { addToCart } from "../redux/slices/cart/cartSlice";
+import { ProductType } from "../misc/type";
 
 const ProductPage = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
 
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, quantity }));
+    dispatch(addToCart({ ...car, quantity }));
+    console.log(`Item with ${productId} added to cart!`);
+    console.log(car);
     navigate("/cart");
   };
-  const productId = id ? +id : 1;
-  const { data: product, isLoading, error } = useFetchProductQuery(productId);
 
-  if (id) {
-    console.log(`fetching product for productID ${id}`);
+  const productId = id ?? "";
+  const {
+    data: car,
+    isLoading,
+    error,
+  } = useFetchProductQuery(productId as string);
+  //console.log(car);
+  console.log(productId);
+
+  if (productId) {
+    console.log(`fetching product for productID ${productId}`);
   }
 
   return (
@@ -45,17 +55,22 @@ const ProductPage = () => {
       ) : (
         <Row>
           <Col md={5}>
-            <Image src={product.image} alt={product.title} fluid />
+            <Image src={car.image} alt={car.model} fluid />
           </Col>
           <Col md={4}>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h3>{product.title}</h3>
+                <h3>{car.model}</h3>
               </ListGroup.Item>
               <ListGroup.Item>
-                <p>{product.description}</p>
+                <p>{car.description}</p>
               </ListGroup.Item>
-              <ListGroup.Item>Price:${product.price}</ListGroup.Item>
+              <ListGroup.Item>Brand:{car.brand.brand}</ListGroup.Item>
+              <ListGroup.Item>
+                <p>Year:{car.year}</p>
+              </ListGroup.Item>
+
+              <ListGroup.Item>Price:${car.price}</ListGroup.Item>
             </ListGroup>
           </Col>
           <Col md={3}>
@@ -65,7 +80,7 @@ const ProductPage = () => {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>${product.price}</strong>
+                      <strong>${car.price}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>

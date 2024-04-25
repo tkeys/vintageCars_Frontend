@@ -10,7 +10,9 @@ import { setCredentials } from "../redux/slices/auth/authSlice";
 import { toast } from "react-toastify";
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,7 +38,13 @@ const RegisterPage = () => {
       toast.error("Passwords do not match");
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await register({
+          userName,
+          email,
+          password,
+          firstName,
+          lastName,
+        }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err: any) {
@@ -48,13 +56,31 @@ const RegisterPage = () => {
     <FormContainer>
       <h1>Sign up</h1>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="name" className="my-3">
-          <Form.Label>Name</Form.Label>
+        <Form.Group controlId="username" className="my-3">
+          <Form.Label>User Name</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter user name"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group controlId="firstname" className="my-3">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter first name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group controlId="lastname" className="my-3">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </Form.Group>
         <Form.Group controlId="email" className="my-3">
@@ -80,7 +106,7 @@ const RegisterPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId="conformPassword" className="my-3">
+        <Form.Group controlId="confirmPassword" className="my-3">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"

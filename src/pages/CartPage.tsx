@@ -21,14 +21,16 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const { cartItems } = cart;
-  const addToCartHandler = (product: any, quantity: number) => {
-    dispatch(addToCart({ ...product, quantity }));
+  const addToCartHandler = (car: any, quantity: number) => {
+    dispatch(addToCart({ ...car, quantity }));
+    console.log(car.model);
   };
-  const removeFromCartHandler = (id: string) => {
-    dispatch(removeFromCart(id));
+  const removeFromCartHandler = (_id: string) => {
+    dispatch(removeFromCart(_id));
   };
   const checkoutHandler = () => {
     navigate("/login?redirect=/payment");
+    console.log("Redirecting to payment page");
   };
 
   return (
@@ -42,13 +44,13 @@ const CartPage = () => {
         ) : (
           <ListGroup variant="flush">
             {cartItems.map((item: any) => (
-              <ListGroup.Item key={item.id}>
+              <ListGroup.Item key={item._id}>
                 <Row>
                   <Col md={2}>
-                    <Image src={item.image} alt={item.title} fluid rounded />
+                    <Image src={item.image} alt={item.model} fluid rounded />
                   </Col>
                   <Col md={2}>
-                    <Link to={`/product/${item.id}`}>{item.title}</Link>
+                    <Link to={`/product/${item._id}`}>{item.model}</Link>
                   </Col>
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>
@@ -69,7 +71,7 @@ const CartPage = () => {
                   <Col md={2}>
                     <Button
                       variant="light"
-                      onClick={() => removeFromCartHandler(item.id)}
+                      onClick={() => removeFromCartHandler(item._id)}
                     >
                       <FaTrash />
                     </Button>

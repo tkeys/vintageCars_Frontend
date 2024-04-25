@@ -34,7 +34,8 @@ const OrderPage = () => {
         itemsPrice: cart.itemsPrice,
       }).unwrap();
       disptach(clearCart());
-      navigate(`/order/${res.id}`);
+      navigate(`/order/${res._id}`);
+      console.log("Order ID is ", res._id);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -71,7 +72,7 @@ const OrderPage = () => {
                             />
                           </Col>
                           <Col>
-                            <Link to={`product/${item.id}`}>{item.title}</Link>
+                            <Link to={`product/${item._id}`}>{item.model}</Link>
                           </Col>
                           <Col md={4}>
                             {item.quantity}*${item.price}=$

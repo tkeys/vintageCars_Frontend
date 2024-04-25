@@ -4,33 +4,54 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (data) => ({
-        url: `https://api.escuelajs.co/api/v1/auth/login`,
+        url: `http://localhost:8080/api/v1/auth/login`,
         method: "POST",
         body: data,
       }),
     }),
     register: builder.mutation({
       query: (data) => ({
-        url: `https://api.escuelajs.co/api/v1/auth/register`,
+        url: `http://localhost:8080/api/v1/auth/register`,
         method: "POST",
         body: data,
       }),
     }),
 
-    logout: builder.mutation<void, void>({
-      queryFn: () => {
-        // Clear user data and authentication tokens from client-side storage
-        localStorage.removeItem("user");
-        sessionStorage.removeItem("user");
-        document.cookie =
-          "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-        // Return success indication without making an API call
-        return { data: undefined };
-      },
+    logout: builder.mutation({
+      query: () => ({
+        url: `http://localhost:8080/api/v1/auth/logout`,
+        method: "POST",
+      }),
+    }),
+    profile: builder.mutation({
+      query: ({ data, _userId }) => ({
+        url: `http://localhost:8080/api/v1/users/${_userId}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
+    getUsers: builder.query({
+      query: () => ({
+        url: `http://localhost:8080/api/v1/users`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+      keepUnusedDataFor: 6,
+    }),
+    deleteUser: builder.mutation({
+      query: ({ _userId }) => ({
+        url: `http://localhost:8080/api/v1/users/${_userId}`,
+        method: "DELETE",
+      }),
     }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
-  usersApiSlice;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useProfileMutation,
+  useGetUsersQuery,
+  useDeleteUserMutation,
+} = usersApiSlice;

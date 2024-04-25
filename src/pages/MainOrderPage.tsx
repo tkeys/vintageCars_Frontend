@@ -15,13 +15,13 @@ import Loader from "../components/Loader";
 import { useGetOrderDetailsQuery } from "../redux/slices/ordersApiSlice";
 
 const MainOrderPage = () => {
-  const { id: orderId } = useParams();
+  const { id: orderListId } = useParams();
   const {
     data: order,
     refetch,
     isLoading,
     error,
-  } = useGetOrderDetailsQuery(orderId);
+  } = useGetOrderDetailsQuery(orderListId);
   console.log(order);
 
   if (isLoading) {
@@ -31,9 +31,24 @@ const MainOrderPage = () => {
       <Message variant="danger">There is an error</Message>
     ) : (
       <>
-        <h1>Order {orderId}</h1>
+        <h1>Order {order}</h1>
         <Row>
-          <Col md={8}>Column</Col>
+          <Col md={8}>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>Order Details</h2>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Items:</Col>
+                    {/* <Col>${order.itemsPrice}</Col> */}
+                  </Row>
+                </ListGroup.Item>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {error && <Message variant="danger">There is an error</Message>}
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
           <Col md={4}>Column</Col>
         </Row>
       </>

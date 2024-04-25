@@ -1,15 +1,21 @@
-export type Product = {
-  model: string;
-  year: number;
+export type ProductType = {
+  _id: string;
   id: string;
+  model: string;
+  brand: string;
+  year: number;
   rating: number;
-  title: string;
   price: number;
   description: string;
-  category: Category;
-  images: string[];
+  image: string;
 };
-
+export type ProductPageType = {
+  cars: ProductType[];
+  currentPage: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  totalPages: number;
+};
 export type Category = {
   id: number;
   name: string;
@@ -17,7 +23,7 @@ export type Category = {
 };
 
 export type ProductCardProps = {
-  product: Product;
+  product: ProductType;
 };
 
 export type RatingProps = {
@@ -26,7 +32,7 @@ export type RatingProps = {
 };
 
 export interface CartItem {
-  id: string;
+  _id: string;
   productId: string;
   quantity: number;
   price: number;
@@ -42,8 +48,21 @@ export interface CartState {
   paymentMethod: string;
 }
 export type Order = {
-  //userId: string;
+  /*  _id: string;
+  carId: string; */
   paymentMethod: string;
   orderItems: [];
   itemsPrice: number;
+};
+
+export type UserType = {
+  _id: string;
+  userName: string;
+  firstName: string;
+  email: string;
+  role: string;
+  lastName: string;
+  banned: boolean;
+  password: string;
+  orderHistory: Order[];
 };

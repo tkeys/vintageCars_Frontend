@@ -12,7 +12,6 @@ const App = () => {
       <Header />
       <main className="py-3">
         <Container>
-          <h1>Welcome to MCAR Shop</h1>
           <Outlet />
         </Container>
       </main>

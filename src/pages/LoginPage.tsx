@@ -8,6 +8,7 @@ import FormContainer from "../components/FormContainer";
 import { useLoginMutation } from "../redux/slices/usersApiSlice";
 import { setCredentials } from "../redux/slices/auth/authSlice";
 import { toast } from "react-toastify";
+import { decodeToken } from "../utils/cartUtils";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -25,6 +26,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
+      console.log(decodeToken(userInfo.token));
     }
   }, [userInfo, redirect, navigate]);
 
@@ -38,6 +40,7 @@ const LoginPage = () => {
       toast.error(err?.data?.message || err.error);
     }
   };
+
   return (
     <FormContainer>
       <h1>Sign-in</h1>

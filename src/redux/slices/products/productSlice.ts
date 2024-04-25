@@ -1,32 +1,59 @@
 import { apiSlice } from "../apiSlice";
-import { Product, Category } from "../../../misc/type";
+import { ProductType, Category, ProductPageType } from "../../../misc/type";
 
 export const productSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    fetchProducts: builder.query<Product[], void>({
-      query: () => ` https://fakestoreapi.com/products`,
+    fetchProducts: builder.query<ProductPageType, string>({
+      query: (searchQuery) => ({
+        url: ` http://localhost:8080/api/v1/cars`,
+        params: {
+          searchQuery,
+        },
+      }),
+
       keepUnusedDataFor: 5,
+      providesTags: ["Products"],
     }),
 
     fetchProduct: builder.query({
-      query: (productId: number) => ({
-        url: `https://fakestoreapi.com/products/${productId}`,
+      query: (_id: string) => ({
+        url: `http://localhost:8080/api/v1/cars/${_id}`,
       }),
       keepUnusedDataFor: 5,
 
       providesTags: ["Product"],
     }),
-    /* filterProductsByCategory: builder.query<Product[]>({
-      query: (category: string) => `/api/v1/products/?categoryId=${category}`,
+
+    createProduct: builder.mutation({
+      query: () => ({
+        url: ` http://localhost:8080/api/v1/cars`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Product"],
     }),
-    sortProductsByPrice: builder.query<Product[]>({
-      query: (order: "asc" | "desc") => `/api/v1/products/?order=${order}`,
+
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `http://localhost:8080/api/v1/cars/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+
+      invalidatesTags: ["Product"],
     }),
-    createNewProductAsync: builder.mutation<Product, ProductCreate>({
-      query: (newProduct: ProductCreate) => `/api/v1/products`,
-      invalidates: ["fetchProducts", "fetchProduct"],
-    }),  */
+    deleteProduct: builder.mutation({
+      query: (_id: string) => ({
+        url: `http://localhost:8080/api/v1/cars/${_id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useFetchProductsQuery, useFetchProductQuery } = productSlice;
+export const {
+  useFetchProductsQuery,
+  useFetchProductQuery,
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
+} = productSlice;

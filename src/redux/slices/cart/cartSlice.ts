@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { CartItem, CartState } from "../../../misc/type";
 import { Category } from "../../../misc/type";
 
@@ -11,18 +12,18 @@ const initialState: CartState = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart") || "{}")
   : { cartItems: [], itemsPrice: 0, paymentMethod: "PayPal" };
 
-const cartSlice = createSlice({
+const cartSlice:any = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
+    addToCart: (state, action: PayloadAction<CartItem>) => {
       const newItem = action.payload;
       const existItem = state.cartItems.find(
-        (item: any) => item.id === newItem.id
+        (item: CartItem) => item._id === newItem._id
       );
       if (existItem) {
         state.cartItems = state.cartItems.map((item: any) =>
-          item.id === existItem.id ? newItem : item
+          item._id === existItem._id ? newItem : item
         );
       } else {
         state.cartItems = [...state.cartItems, newItem];
@@ -36,9 +37,9 @@ const cartSlice = createSlice({
       );
       localStorage.setItem("cart", JSON.stringify(state.cartItems));
     },
-    removeFromCart: (state, action) => {
+    removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
-        (item: { id: string }) => item.id !== action.payload
+        (item: { _id: string }) => item._id !== action.payload
       );
 
       localStorage.setItem("cart", JSON.stringify(state));
