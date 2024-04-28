@@ -17,9 +17,14 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { useProfileMutation } from "../redux/slices/usersApiSlice";
 import { setCredentials } from "../redux/slices/auth/authSlice";
+import { useGetMyOrdersQuery } from "../redux/slices/ordersApiSlice";
+
+import { decodeToken } from "../utils/cartUtils";
+import { useParams } from "react-router-dom";
 
 const ProfilePage = () => {
   const { userInfo } = useSelector((state: any) => state.auth);
+  console.log("UserInfo is ", userInfo);
   const [userName, setUserName] = useState(userInfo.userName);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,18 +33,31 @@ const ProfilePage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
-  //const { userInfo } = useSelector((state: any) => state.auth);
+
+  const userData = decodeToken(userInfo?.token);
+  console.log("My user data info is ", userData);
+  console.log("My user id data info is ", userData.userId);
+  const id = userData.userId;
+  const orderListId = userData.orderHistory[0];
+
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
 
+  const {
+    data: orders,
+    isLoading,
+    error,
+  } = useGetMyOrdersQuery({ orderListId, userId: id });
+  console.log("My Order are", orders);
+
   useEffect(() => {
-    if (userInfo) {
-      setUserName(userInfo.userName);
-      setFirstName(userInfo.firstName);
-      setLastName(userInfo.lastName);
-      setEmail(userInfo.email);
+    if (userData) {
+      setUserName(userData.userName);
+      setFirstName(userData.firstName);
+      setLastName(userData.lastName);
+      setEmail(userData.email);
     }
-  }, [userInfo, setUserName, setFirstName, setLastName, setEmail]);
+  }, [userInfo, userInfo.userName, setFirstName, setLastName, userInfo.email]);
   //note here too dependency could also be [userInfo.userName, userInfo.firstName, userInfo.lastName, userInfo.email]
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +67,7 @@ const ProfilePage = () => {
     } else {
       try {
         const res = await updateProfile({
-          id: userInfo._id,
+          /*  id: userData.userId, */
           userName,
           firstName,
           lastName,
@@ -57,7 +75,7 @@ const ProfilePage = () => {
           password,
           confirmPassword,
         }).unwrap();
-        dispatch(setCredentials({ ...res })); //note here could be {...res}
+        dispatch(setCredentials(res)); //note here could be {...res}
         toast.success("Profile Updated successfully");
       } catch (err: any) {
         toast.error(err?.data?.message || err.error);
@@ -75,7 +93,7 @@ const ProfilePage = () => {
             <Form.Control
               type="text"
               placeholder="Enter User Name"
-              value={lastName}
+              value={userName}
               onChange={(e) => setUserName(e.target.value)}
             />
           </Form.Group>
@@ -130,7 +148,39 @@ const ProfilePage = () => {
           {loadingUpdateProfile && <Loader />}
         </Form>
       </Col>
-      <Col md={9}> Column </Col>
+      <Col md={9}>
+        <h2>My Orders</h2>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">
+            "Unknown Error occurred. Please try again later."
+          </Message>
+        ) : (
+          <Table striped hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>USER</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.data.orders.map((order: any) => (
+                <tr key={order._id}>
+                  <td> {order.quantity}</td>
+                  <td>{order._id}</td>
+                  <td>{order.orderSum}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Col>
     </Row>
   );
 };

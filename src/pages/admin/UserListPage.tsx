@@ -17,7 +17,7 @@ const UserListPage = () => {
   const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
 
   const deleteHandler = (_id: any) => {
-    if (window.confirm("Are you sure to delete this user?")) {
+    if (window.confirm("Are you sure you want to delete this user?")) {
       deleteUser(_id);
       toast.success("User deleted");
       refetch();

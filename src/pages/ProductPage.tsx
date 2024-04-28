@@ -71,6 +71,9 @@ const ProductPage = () => {
               </ListGroup.Item>
 
               <ListGroup.Item>Price:${car.price}</ListGroup.Item>
+              <ListGroup.Item>
+                Conditions:{car.conditions[0].name}
+              </ListGroup.Item>
             </ListGroup>
           </Col>
           <Col md={3}>

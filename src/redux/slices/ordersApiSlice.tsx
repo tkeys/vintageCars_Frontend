@@ -16,14 +16,25 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getOrderDetails: builder.query({
-      query: (orderListId) => ({
-        url: `http://localhost:8080/api/v1/users/userId/orderlists/${orderListId}`,
+      query: ({ orderListId, userId }) => ({
+        url: `http://localhost:8080/api/v1/users/${userId}/orderlists/${orderListId}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 6,
+    }),
+    getMyOrders: builder.query({
+      query: ({ userId, orderListId }) => ({
+        url: `http://localhost:8080/api/v1/users/${userId}/orderlists/${orderListId}`,
+        method: "GET",
+      }),
+
       keepUnusedDataFor: 6,
     }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetOrderDetailsQuery } =
-  ordersApiSlice;
+export const {
+  useCreateOrderMutation,
+  useGetOrderDetailsQuery,
+  useGetMyOrdersQuery,
+} = ordersApiSlice;

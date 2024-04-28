@@ -10,8 +10,8 @@ export const productSlice = apiSlice.injectEndpoints({
           searchQuery,
         },
       }),
-
       keepUnusedDataFor: 5,
+
       providesTags: ["Products"],
     }),
 
@@ -46,7 +46,9 @@ export const productSlice = apiSlice.injectEndpoints({
         url: `http://localhost:8080/api/v1/cars/${_id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Products"],
     }),
+    
   }),
 });
 

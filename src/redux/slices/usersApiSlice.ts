@@ -24,8 +24,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     profile: builder.mutation({
-      query: ({ data, _userId }) => ({
-        url: `http://localhost:8080/api/v1/users/${_userId}`,
+      query: ({ userId, data }) => ({
+        url: `http://localhost:8080/api/v1/users/${userId}`,
         method: "PUT",
         body: data,
       }),

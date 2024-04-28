@@ -78,7 +78,7 @@ const ProductListPage = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">Error message here</Message>
+        <Message variant="danger">Error getting list</Message>
       ) : (
         <Table striped bordered hover>
           <thead>
