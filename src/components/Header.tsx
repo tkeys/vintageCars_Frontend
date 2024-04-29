@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Badge, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
-import logo from "../assets/logo.png";
+import logox from "../assets/logox.png";
 import { useSelector, useDispatch } from "react-redux";
 import { CartState, CartItem } from "../misc/type";
 import { RootState } from "../redux/store";
@@ -37,7 +37,7 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>
-              <img src={logo} alt="logo" />
+              <img src={logox} alt="logox" height={"80px"} />
               My VintageCAR SHOP
             </Navbar.Brand>
           </LinkContainer>
