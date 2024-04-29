@@ -11,7 +11,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     register: builder.mutation({
       query: (data) => ({
-        url: `http://localhost:8080/api/v1/auth/register`,
+        url: `/auth/register`,
         method: "POST",
         body: data,
       }),
@@ -19,20 +19,20 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 
     logout: builder.mutation({
       query: () => ({
-        url: `http://localhost:8080/api/v1/auth/logout`,
+        url: `/auth/logout`,
         method: "POST",
       }),
     }),
     profile: builder.mutation({
       query: ({ userId, data }) => ({
-        url: `http://localhost:8080/api/v1/users/${userId}`,
+        url: `/users/${userId}`,
         method: "PUT",
         body: data,
       }),
     }),
     getUsers: builder.query({
       query: () => ({
-        url: `http://localhost:8080/api/v1/users`,
+        url: `/users`,
         method: "GET",
       }),
       providesTags: ["Users"],
@@ -40,7 +40,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     deleteUser: builder.mutation({
       query: ({ _userId }) => ({
-        url: `http://localhost:8080/api/v1/users/${_userId}`,
+        url: `/users/${_userId}`,
         method: "DELETE",
       }),
     }),

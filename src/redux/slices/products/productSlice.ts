@@ -1,11 +1,15 @@
 import { apiSlice } from "../apiSlice";
 import { ProductType, Category, ProductPageType } from "../../../misc/type";
-
+/**
+ * @desc apiSlice will add base url to the following endpoints
+ * @example /cars will be https://vintagecarshop-backend.onrender.com/api/v1/cars or if
+ * the base url in the apiSlice was http://localhost:3000/api/v1 will be http://localhost:3000/api/v1/cars
+ */
 export const productSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     fetchProducts: builder.query<ProductPageType, string>({
       query: (searchQuery) => ({
-        url: ` http://localhost:8080/api/v1/cars`,
+        url: "/cars",
         params: {
           searchQuery,
         },
@@ -17,7 +21,7 @@ export const productSlice = apiSlice.injectEndpoints({
 
     fetchProduct: builder.query({
       query: (_id: string) => ({
-        url: `http://localhost:8080/api/v1/cars/${_id}`,
+        url: `/cars/${_id}`,
       }),
       keepUnusedDataFor: 5,
 
@@ -26,7 +30,7 @@ export const productSlice = apiSlice.injectEndpoints({
 
     createProduct: builder.mutation({
       query: () => ({
-        url: ` http://localhost:8080/api/v1/cars`,
+        url: `/cars`,
         method: "POST",
       }),
       invalidatesTags: ["Product"],
@@ -34,7 +38,7 @@ export const productSlice = apiSlice.injectEndpoints({
 
     updateProduct: builder.mutation({
       query: (data) => ({
-        url: `http://localhost:8080/api/v1/cars/${data._id}`,
+        url: `/cars/${data._id}`,
         method: "PUT",
         body: data,
       }),
@@ -43,12 +47,11 @@ export const productSlice = apiSlice.injectEndpoints({
     }),
     deleteProduct: builder.mutation({
       query: (_id: string) => ({
-        url: `http://localhost:8080/api/v1/cars/${_id}`,
+        url: `/cars/${_id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Products"],
     }),
-    
   }),
 });
 
