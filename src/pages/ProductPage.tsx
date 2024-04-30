@@ -37,11 +37,10 @@ const ProductPage = () => {
     error,
   } = useFetchProductQuery(productId as string);
   //console.log(car);
-  console.log(productId);
 
-  if (productId) {
+  /* if (productId) {
     console.log(`fetching product for productID ${productId}`);
-  }
+  } */
 
   return (
     <>
