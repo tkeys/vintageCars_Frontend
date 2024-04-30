@@ -20,7 +20,7 @@ const Header = () => {
   const [logoutApiCall] = useLogoutMutation();
 
   const userData = decodeToken(userInfo?.token);
-  console.log(userData);
+  /*  console.log(userData); */
 
   const logoutHandler = async () => {
     try {
