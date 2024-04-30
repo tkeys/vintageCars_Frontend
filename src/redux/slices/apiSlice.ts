@@ -12,8 +12,8 @@ const baseQuery = fetchBaseQuery({
       headers.set("authorization", `Bearer ${token}`);
       headers.set("Authorization", `Bearer ${token}`);
     }
-    /*   headers.append("origin", "Access-Control-Allow-Origin"); */
-    headers.append("Origin", "https://fs17-e-commerce-project.vercel.app/");
+    headers.set("origin", "Access-Control-Allow-Origin");
+
     headers.set("Content-Type", "application/json");
     return headers;
   },
