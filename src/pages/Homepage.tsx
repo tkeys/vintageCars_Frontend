@@ -13,9 +13,6 @@ const HomePage = () => {
   const { searchQuery } = useParams<{ searchQuery: string }>();
   const { data, isLoading, error } = useFetchProductsQuery(searchQuery || "");
 
-  if (data) {
-    console.log(data);
-  }
   if (!data) {
     return <Loader />;
   }
