@@ -6,7 +6,7 @@ import Rating from "./Rating";
 import { ProductType } from "../misc/type";
 
 const ProductCard = ({ car }: { car: ProductType }) => {
-  console.log(car);
+  //console.log(car);
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${car._id}`}>

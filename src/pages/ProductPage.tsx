@@ -25,8 +25,8 @@ const ProductPage = () => {
 
   const addToCartHandler = () => {
     dispatch(addToCart({ ...car, quantity }));
-    console.log(`Item with ${productId} added to cart!`);
-    console.log(car);
+    /* console.log(`Item with ${productId} added to cart!`);
+    console.log(car); */
     navigate("/cart");
   };
 
