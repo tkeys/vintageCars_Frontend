@@ -12,7 +12,7 @@ const baseQuery = fetchBaseQuery({
       headers.set("authorization", `Bearer ${token}`);
       headers.set("Authorization", `Bearer ${token}`);
     }
-    headers.append("Origin", "Access-Control-Allow-Origin");
+    /* headers.append("Origin", "Access-Control-Allow-Origin"); */
     return headers;
   },
 });
