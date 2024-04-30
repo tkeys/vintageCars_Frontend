@@ -9,7 +9,7 @@ export const productSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     fetchProducts: builder.query<ProductPageType, string>({
       query: (searchQuery) => ({
-        url: "/cars",
+        url: "/cars/",
         params: {
           searchQuery,
         },
